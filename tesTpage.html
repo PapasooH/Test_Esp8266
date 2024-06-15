@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relay Control</title>
+    <style>
+        .relay-button {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            font-size: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+    <script>
+        const apiKey = "2122M0Z11VBXO546";
+        const channelId = "2578575";
+
+        function updateRelay(field, state) {
+            const url = `https://api.thingspeak.com/update?api_key=${apiKey}&field${field}=${state}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`Field ${field} updated to ${state}`);
+                })
+                .catch(error => {
+                    console.error("Error updating ThingSpeak:", error);
+                });
+        }
+
+        function toggleRelay(field) {
+            const button = document.getElementById(`relay${field}`);
+            const currentState = button.getAttribute("data-state") === "1";
+            const newState = currentState ? 0 : 1;
+            button.setAttribute("data-state", newState);
+            button.textContent = newState ? `Relay ${field} ON` : `Relay ${field} OFF`;
+            updateRelay(field, newState);
+        }
+    </script>
+</head>
+<body>
+    <h1>Relay Control</h1>
+    <div class="container">
+        <button id="relay1" class="relay-button" data-state="0" onclick="toggleRelay(1)">Relay 1 OFF</button>
+        <button id="relay2" class="relay-button" data-state="0" onclick="toggleRelay(2)">Relay 2 OFF</button>
+        <button id="relay3" class="relay-button" data-state="0" onclick="toggleRelay(3)">Relay 3 OFF</button>
+        <button id="relay4" class="relay-button" data-state="0" onclick="toggleRelay(4)">Relay 4 OFF</button>
+        <button id="relay5" class="relay-button" data-state="0" onclick="toggleRelay(5)">Relay 5 OFF</button>
+        <button id="relay6" class="relay-button" data-state="0" onclick="toggleRelay(6)">Relay 6 OFF</button>
+        <button id="relay7" class="relay-button" data-state="0" onclick="toggleRelay(7)">Relay 7 OFF</button>
+        <button id="relay8" class="relay-button" data-state="0" onclick="toggleRelay(8)">Relay 8 OFF</button>
+    </div>
+</body>
+</html>
