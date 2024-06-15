@@ -18,16 +18,15 @@
         const apiKey = "2122M0Z11VBXO546";
         const channelId = "2578575";
 
-        function updateRelay(field, state) {
+        async function updateRelay(field, state) {
             const url = `https://api.thingspeak.com/update?api_key=${apiKey}&field${field}=${state}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(`Field ${field} updated to ${state}`);
-                })
-                .catch(error => {
-                    console.error("Error updating ThingSpeak:", error);
-                });
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(`Field ${field} updated to ${state}`);
+            } catch (error) {
+                console.error("Error updating ThingSpeak:", error);
+            }
         }
 
         function toggleRelay(field) {
